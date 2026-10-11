@@ -332,6 +332,44 @@ struct LogView: View {
     }
 }
 
+struct ConcurrencyPicker: NSViewRepresentable {
+    @Binding var workers: Int
+
+    func makeCoordinator() -> Coordinator { Coordinator(workers: $workers) }
+
+    func makeNSView(context: Context) -> NSPopUpButton {
+        let control = NSPopUpButton(frame: .zero, pullsDown: false)
+        control.controlSize = .regular
+        control.font = .systemFont(ofSize: 13)
+        control.bezelStyle = .rounded
+        control.alignment = .left
+        control.menu?.autoenablesItems = false
+        for number in DownloadStore.workerOptions {
+            control.addItem(withTitle: number == 8 ? "8（默认）" : "\(number)")
+            control.lastItem?.tag = number
+        }
+        control.target = context.coordinator
+        control.action = #selector(Coordinator.selectConcurrency(_:))
+        control.setAccessibilityLabel("下载并发")
+        control.setAccessibilityIdentifier("download-concurrency")
+        return control
+    }
+
+    func updateNSView(_ control: NSPopUpButton, context: Context) {
+        context.coordinator.workers = $workers
+        control.selectItem(withTag: workers)
+    }
+
+    final class Coordinator: NSObject {
+        var workers: Binding<Int>
+        init(workers: Binding<Int>) { self.workers = workers }
+
+        @objc func selectConcurrency(_ sender: NSPopUpButton) {
+            if let number = sender.selectedItem?.tag { workers.wrappedValue = number }
+        }
+    }
+}
+
 struct SettingsView: View {
     @ObservedObject var store: DownloadStore
 
@@ -345,11 +383,12 @@ struct SettingsView: View {
                     Button("更改…") { store.chooseOutput() }
                 }
             }
-            Picker("下载并发", selection: $store.workers) {
-                ForEach(DownloadStore.workerOptions, id: \.self) { number in
-                    Text(number == 8 ? "8（默认）" : "\(number)").tag(number)
-                }
+            .accessibilityElement(children: .contain)
+            LabeledContent("下载并发") {
+                ConcurrencyPicker(workers: $store.workers)
+                    .frame(width: 128, height: 26)
             }
+            .accessibilityElement(children: .contain)
             Toggle("遇到验证时打开 Chrome", isOn: $store.showBrowser).toggleStyle(.switch)
         }
         .formStyle(.grouped)
