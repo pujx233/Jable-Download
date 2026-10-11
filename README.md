@@ -10,7 +10,8 @@ Jable 的非官方 macOS 下载器。粘贴影片链接，视频和封面自动�
 
 - [DMG 安装包](https://github.com/pujx233/Jable-Download/releases/download/v1.0.0/Jable-Download-1.0.0-arm64.dmg)：打开后，把应用拖到 Applications。
 - [ZIP 应用包](https://github.com/pujx233/Jable-Download/releases/download/v1.0.0/Jable-Download-1.0.0-arm64.zip)：解压后把应用放到“应用程序”。
-- [源码与全部附件](https://github.com/pujx233/Jable-Download/releases/tag/v1.0.0)。
+- [完整源码 ZIP](https://github.com/pujx233/Jable-Download/releases/download/v1.0.0/Jable-Download-1.0.0-source.zip)：包含原版命令行程序、macOS 客户端和中英文说明。
+- [全部附件](https://github.com/pujx233/Jable-Download/releases/tag/v1.0.0)。
 
 要求 Apple Silicon、macOS 27 或更新版本，以及已安装的 Google Chrome。应用已包含 Python、FFmpeg 和下载依赖，不需要 Docker。当前界面为中文。
 

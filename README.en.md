@@ -10,7 +10,8 @@ Built on [hcjohn463/JableTVDownload](https://github.com/hcjohn463/JableTVDownloa
 
 - [DMG installer](https://github.com/pujx233/Jable-Download/releases/download/v1.0.0/Jable-Download-1.0.0-arm64.dmg): open it and drag the app to Applications.
 - [ZIP app](https://github.com/pujx233/Jable-Download/releases/download/v1.0.0/Jable-Download-1.0.0-arm64.zip): extract it and move the app to Applications.
-- [Source code and all release files](https://github.com/pujx233/Jable-Download/releases/tag/v1.0.0).
+- [Full source ZIP](https://github.com/pujx233/Jable-Download/releases/download/v1.0.0/Jable-Download-1.0.0-source.zip): includes the original command-line program, macOS app, and both README versions.
+- [All release files](https://github.com/pujx233/Jable-Download/releases/tag/v1.0.0).
 
 Requires Apple Silicon, macOS 27 or later, and Google Chrome. Python, FFmpeg, and the download dependencies are bundled; Docker is not required. The app interface is currently in Chinese.
 
