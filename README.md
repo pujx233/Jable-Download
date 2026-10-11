@@ -1,121 +1,56 @@
-# JableTVDownload
+# Jable Download
 
-## 下載JableTV好幫手
+Jable 的非官方 macOS 下载器。粘贴影片链接，视频和封面自动保存在同一个目录。
 
-每次看正要爽的時候就給我卡住轉圈圈  
+基于 [hcjohn463/JableTVDownload](https://github.com/hcjohn463/JableTVDownload)，保留原版命令行程序，新增原生 SwiftUI 客户端。
 
-直接下載到電腦看沒煩惱
+## 下载 1.0.0
 
----
+- [DMG 安装包](https://github.com/pujx233/Jable-Download/releases/download/v1.0.0/Jable-Download-1.0.0-arm64.dmg)：打开后，把应用拖到 Applications。
+- [ZIP 应用包](https://github.com/pujx233/Jable-Download/releases/download/v1.0.0/Jable-Download-1.0.0-arm64.zip)：解压后把应用放到“应用程序”。
+- [源码与全部附件](https://github.com/pujx233/Jable-Download/releases/tag/v1.0.0)。
 
-## 🐳 Docker 一鍵啟動（推薦）
+要求 Apple Silicon、macOS 27 或更新版本，以及已安装的 Google Chrome。应用已包含 Python、FFmpeg 和下载依赖，不需要 Docker。
 
-不需要手動安裝 ChromeDriver、FFmpeg、Python 環境，全部封裝在容器內。
+当前包使用临时签名，未经过 Apple 公证。如果首次打开被拦截，请先确认来源与 SHA-256 校验值，再根据 [Apple 的说明](https://support.apple.com/en-us/102445)自行决定是否允许打开。无需关闭系统安全检查。
 
-### 前置需求
-- 安裝 [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+## 使用
 
-### 使用方法
+1. 粘贴 Jable 影片链接，每行一条。
+2. 选择保存目录，点击“开始下载”（`⌘↩`）。
+3. 视频和封面保存在同名的大写目录中。
 
-```bash
-# 1. 建立 image
-docker build -t jable-downloader .
-
-# 2. 執行（互動模式，下載影片存至本機 downloads 資料夾）
-docker run -it -v D:\downloads:/downloads jable-downloader
+```text
+影片编号/
+  影片编号.mp4
+  影片编号.jpg
 ```
 
----
+支持批量队列、去重、暂停继续、退出后恢复、失败重试和运行记录。已有视频不会被覆盖，缺少封面时只补封面。
 
-## 💻 傳統安裝（Windows）
+“设置”（`⌘,`）可调整保存目录、分片并发数和验证浏览器。支持选择已挂载的 NAS 目录；不会读取 SSH 密钥或 NAS 账号。
 
-1. 請自行安裝 ffmpeg，裝完之後執行 INIT.bat 將會自動建置其餘環境。
-2. 若收到可以執行 RUN.bat 之訊息，執行 RUN.bat 即可使用此神器。
+如果网页要求验证，开启“遇到验证时打开 Chrome”后重试，在独立 Chrome 窗口完成验证。支持 MPEG-TS 点播 HLS 和 AES-128；暂不支持独立音轨、fMP4 或字节范围流。
 
-### 1. 搭建並啟用虛擬環境
+详细说明见 [macos/README.md](macos/README.md)。原版 Python、Docker 和 Windows 用法见 [CLI_README.md](CLI_README.md)。
 
-```
-python -m venv jable
-jable/Scripts/activate
-```
-![image](https://github.com/hcjohn463/JableDownload/blob/main/img/createVenv.PNG)
+## 构建
 
-### 2. 下載所需套件
+需要 Apple Silicon Mac、Xcode Command Line Tools、Python 3.12.15（或 uv）和 FFmpeg。
 
-```
-pip install -r requirements.txt
+```sh
+uv venv --python 3.12.15 .macos-venv
+uv pip install --python .macos-venv/bin/python -r macos/requirements-lock.txt
+bash macos/BUILD.command
+bash macos/PACKAGE.command
 ```
 
-安裝 [FFmpeg] 用於轉檔
+输出位于 `dist/`。发布材料的生成方式见 [macos/ThirdPartyBuild.md](macos/ThirdPartyBuild.md)。
 
-### 3. 執行程式
+## 许可证
 
-```
-python main.py
-```
+客户端与上游代码使用 [Apache-2.0](LICENSE)。Jable 名称和图标归原站点所有，本项目与原站点无隶属关系。
 
-### 4. 輸入影片網址
-`https://jable.tv/videos/ipx-486/`  
-![image](https://github.com/hcjohn463/JableDownload/blob/main/img/download2.PNG)
+随附的 FFmpeg 含 GPL 组件，使用 GPL-3.0-or-later；各依赖保留其原有许可证。第三方许可证随应用附带，对应源码与构建说明位于同版 Release 的 `Jable-Download-1.0.0-third-party-sources.tar.gz`。
 
-### 5. 等待下載與合成
-
-下載和合成影片皆有即時進度條顯示：
-
-```
-⬇ 下載進度:  73%|██████████████░░░░░  | 1334/1827 [01:12<00:27, 18.2片段/s]
-🎬 合成影片:  45%|█████████░░░░░░░░░░░ |  821/1827 [01:23<01:40]
-```
-
-### 6. 完成
-
-![image](https://github.com/hcjohn463/JableDownload/blob/main/img/demo2.png)
-
-### 如果覺得好用 再麻煩給個星星好評 謝謝!!
-
----
-
-[FFmpeg]:<https://www.ffmpeg.org/>
-
----
-
-## Argument Parser
-
-```bash
-python main.py -h
-python main.py --random True       # 下載隨機熱門影片
-python main.py --url <網址>         # 直接指定 URL
-python main.py --all_urls <演員頁>  # 下載演員所有影片
-```
-
----
-
-## ☸️ Kubernetes 支援
-
-`k8s/` 資料夾內含完整 Kubernetes 配置，可將下載任務部署為 K8s Job：
-
-```bash
-kubectl apply -f k8s/pvc.yaml        # 建立持久化儲存
-kubectl apply -f k8s/configmap.yaml  # 套用設定
-kubectl apply -f k8s/job.yaml        # 執行下載任務
-kubectl get jobs                      # 查看任務狀態
-```
-
----
-
-## 📜 更新日誌 (Update Log)
-
-| 版本 | 日期 | 內容 |
-| :--- | :--- | :--- |
-| **v2.0** | 2026/03/15 | 🐳 支援 Docker 容器化部署、☸️ K8s (Job/PVC/ConfigMap) 支援 |
-| | | 📊 下載與合成加入 `tqdm` 即時進度條、🚀 優化合成與轉檔速度 |
-| **v1.11**| 2023/04/19 | 🦕 新增 ffmpeg 自動轉檔 |
-| **v1.10**| 2023/04/19 | 🏹 兼容 Ubuntu Server |
-| **v1.9** | 2023/04/15 | 🦅 下載演員所有相關影片 |
-| **v1.8** | 2022/01/25 | 🚗 下載結束後自動抓取封面 |
-| **v1.7** | 2021/06/04 | 🐶 更改 m3u8 獲取方法 (正則表達式) |
-| **v1.6** | 2021/05/28 | 🌏 支援 Unix 系統 (Mac, Linux 等) |
-| **v1.5** | 2021/05/27 | 🍎 更新爬蟲網頁方法 |
-| **v1.4** | 2021/05/20 | 🌳 修改編碼問題 |
-| **v1.3** | 2021/05/06 | 🌈 增加下載進度提示、修改 Crypto 問題 |
-| **v1.2** | 2021/05/05 | ⭐ 更新穩定版本 |
+仅下载你有权访问和保存的内容。

@@ -23,3 +23,12 @@ chromedriver*
 
 # 下載資料夾（影片可能很大）
 downloads/
+
+# 原生 macOS 客户端构建
+.venv/
+.macos-venv/
+.macos-tools-venv/
+.macos-build.*/
+.macos-tests.*/
+.macos-release.*/
+dist/
