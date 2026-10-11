@@ -1,5 +1,7 @@
 # Jable Download
 
+[简体中文](README.md) | [English](README.en.md)
+
 Jable 的非官方 macOS 下载器。粘贴影片链接，视频和封面自动保存在同一个目录。
 
 基于 [hcjohn463/JableTVDownload](https://github.com/hcjohn463/JableTVDownload)，保留原版命令行程序，新增原生 SwiftUI 客户端。
@@ -10,7 +12,7 @@ Jable 的非官方 macOS 下载器。粘贴影片链接，视频和封面自动�
 - [ZIP 应用包](https://github.com/pujx233/Jable-Download/releases/download/v1.0.0/Jable-Download-1.0.0-arm64.zip)：解压后把应用放到“应用程序”。
 - [源码与全部附件](https://github.com/pujx233/Jable-Download/releases/tag/v1.0.0)。
 
-要求 Apple Silicon、macOS 27 或更新版本，以及已安装的 Google Chrome。应用已包含 Python、FFmpeg 和下载依赖，不需要 Docker。
+要求 Apple Silicon、macOS 27 或更新版本，以及已安装的 Google Chrome。应用已包含 Python、FFmpeg 和下载依赖，不需要 Docker。当前界面为中文。
 
 当前包使用临时签名，未经过 Apple 公证。如果首次打开被拦截，请先确认来源与 SHA-256 校验值，再根据 [Apple 的说明](https://support.apple.com/en-us/102445)自行决定是否允许打开。无需关闭系统安全检查。
 
